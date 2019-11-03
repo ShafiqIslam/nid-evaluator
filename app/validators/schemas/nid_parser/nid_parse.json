@@ -1,0 +1,9 @@
+{
+  "title": "Nid Image Parse",
+  "description": "Parse information from nid image",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "required": [
+    "nid_image"
+  ]
+}

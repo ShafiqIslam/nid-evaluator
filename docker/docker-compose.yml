@@ -1,0 +1,21 @@
+version: "3.1"
+services:
+  tesseract-server:
+    container_name: tesseract-server
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    volumes:
+      - /var/www/html/tesseract-ocr:/usr/src/app
+    environment:
+      - VIRTUAL_HOST=nid-validate.sheba.test
+    ports:
+      - "5001:5001"
+    networks:
+      - development_network
+    env_file:
+      - ../.env
+networks:
+  development_network:
+    external:
+      name: docker-laravel_development_network
