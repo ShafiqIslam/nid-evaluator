@@ -1,6 +1,6 @@
 from werkzeug.utils import secure_filename
 
-from app import App
+from app.config import App
 
 
 class Uploader:
