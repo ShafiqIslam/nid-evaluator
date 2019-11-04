@@ -1,15 +1,18 @@
-from werkzeug.utils import secure_filename
+import os
 
 from app.config import App
+from app.common.helpers import log, get_time_string_file_name
 
 
 class Uploader:
-    temp_dir = ''
-
-    def __init__(self):
-        self.temp_dir = App.temp_image_folder
-
-    @classmethod
-    def temp_upload(cls, file):
-        name = secure_filename(file.filename)
-        return file.save(cls.temp_dir, name)
+    @staticmethod
+    def temp_upload(file):
+        name = get_time_string_file_name(file.filename)
+        if not os.path.exists(App.temp_image_folder):
+            os.mkdir(App.temp_image_folder, 0o777)
+        path = os.path.join(App.temp_image_folder, name)
+        try:
+            file.save(path)
+            return path
+        except Exception as e:
+            return None

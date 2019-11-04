@@ -1,5 +1,4 @@
 from werkzeug.middleware.proxy_fix import ProxyFix
-
 from app import create_app
 from app.common import attach_gunicorn_logger, attach_sentry_wsgi
 from app.config import App

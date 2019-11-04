@@ -38,6 +38,11 @@ class InvalidPermissions(JSONException):
     status_code = Unauthorized.code
 
 
+class InvalidRequestException(JSONException):
+    status_code = 500
+    message = "Invalid Request please submit all the required data"
+
+
 class InvalidAPIRequest(JSONException):
     """
     Raised when an invalid request has been made.

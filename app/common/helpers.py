@@ -146,4 +146,13 @@ def float_to_money(value):
     return float("{0:.2f}".format(value))
 
 
+def get_time_string_file_name(filename):
+    import time
+    from werkzeug.utils import secure_filename
+    stamp = time.strftime("%Y%m%d_%H%M%S")
+    filename = secure_filename(filename)
+    split = filename.rsplit('.', 1)
+    return "{}_{}.{}".format(split[0], stamp, split[1])
+
+
 ordinal = lambda n: "%d%s" % (n, "tsnrhtdd"[(n / 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])

@@ -1,6 +1,4 @@
 from flask import current_app, request
-
-# from ..common.database import db_session
 from ..common.exceptions import InvalidContentType, InvalidPermissions
 from app.config import App
 
@@ -58,6 +56,7 @@ def commit_session(response):
     of a successful request with status_code
     under 400.
     """
+    # from ..common.database import db_session
     # if response.status_code >= 400:
     #     db_session.rollback()
     #     return response
@@ -75,6 +74,7 @@ def shutdown_session(exception=None):
     Remove the db session and detach from the
     database driver after application shutdown.
     """
+    # from ..common.database import db_session
     # db_session.remove()
     # if exception and db_session.is_active:
     #     db_session.rollback()

@@ -14,9 +14,9 @@ class App:
     init_sentry: str = os.getenv('INIT_SENTRY')
     init_db: str = os.getenv('INIT_DB')
     enable_gunicorn_logger = os.getenv('ENABLE_GUNICORN_LOGGER')
-    root = os.path.dirname(os.path.abspath(__file__))
-    temp_image_folder = os.path.join(root, '/', os.getenv('TEMP_IMAGE_DIR'))
-    temp_folder = os.path.join(root, '/', os.getenv('TEMP_FOLDER'))
+    root = os.path.dirname(os.path.abspath(__file__)).replace('config', '')
+    temp_image_folder = os.path.join("{}{}{}".format('.', os.sep, os.getenv('TEMP_IMAGE_DIR')))
+    temp_folder = os.path.join(root, "{}{}".format(os.sep, os.getenv('TEMP_FOLDER')))
 
 
 class DB:
