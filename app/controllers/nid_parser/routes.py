@@ -27,7 +27,7 @@ def nid_parse():
         if file_name is not None:
             parser = BDNIDParser(img_format=img_format, side=img_side)
             data = parser.parse_image(file_name)
-            data2 = parser.parse_image(file_name, Preprocess.THRESHOLD)
+            data2 = parser.parse_image(file_name, Preprocess.THRESHOLD.value)
             os.remove(file_name)
             return {
                 "code": 200,
