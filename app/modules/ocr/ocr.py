@@ -25,12 +25,13 @@ class Ocr:
 
     @staticmethod
     def thresh(image):
-        image = cv2.medianBlur(image, ksize=3)
-        return cv2.threshold(image, 55, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+        image = cv2.medianBlur(image, 5)
+        return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+        # return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
 
     @staticmethod
     def blur(image, ksize=3):
-        return cv2.GaussianBlur(image, (5, 5), ksize)
+        return cv2.GaussianBlur(image, (ksize, ksize), ksize)
 
     @staticmethod
     def allowed(filename):
@@ -42,16 +43,16 @@ class Ocr:
         if file is not None:
             filename = self.process_image(file, preprocess)
             output = pytesseract.image_to_string(Image.open(filename), lang=self.lang, output_type=self.output_type)
-            # os.remove(filename)
+            os.remove(filename)
         return output
 
     def process_image(self, file, preprocess):
         image = cv2.imread(file)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        if preprocess == Preprocess.THRESHOLD.value:
-            gray = self.thresh(gray)
-        else:
-            gray = self.blur(gray)
+        # if preprocess == Preprocess.THRESHOLD.value:
+        #     gray = self.thresh(gray)
+        # else:
+        #     gray = self.blur(gray)
         filename = "{}/{}".format(self.temp, get_time_string_file_name("_{}.png".format(os.getpid())))
         cv2.imwrite(filename, gray)
         return filename
