@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from app.modules.nid_parser.bd.enums import Side, Format
 from app.modules.nid_parser.exceptions.invalids import InvalidSideException, NotClearImage
 from app.modules.ocr import Ocr
@@ -8,12 +7,15 @@ from app.modules.ocr import Ocr
 class NIDParser(ABC):
     side = None
     format = Format.OLD
+    preprocess_filter = None
 
-    def __init__(self, side=Side.FRONT.value):
+    def __init__(self, side=Side.FRONT.value, preprocess=None):
         self.side = side
+        self.filter = filter
+        self.preprocess_filter = preprocess
 
     def parseImage(self, filename):
-        data = Ocr().parse_image(filename)
+        data = Ocr().parse_image(filename, preprocess=self.preprocess_filter)
         self.serialize(data)
         return self
 
@@ -22,8 +24,6 @@ class NIDParser(ABC):
         methods = "parse_{}_data".format(self.side)
         method_call = getattr(self, methods, self.invalid_format)
         output = method_call(data)
-        if 'nid_number' not in output or 'name' not in output:
-            raise NotClearImage()
         return output
 
     @abstractmethod

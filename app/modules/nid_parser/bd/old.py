@@ -14,7 +14,7 @@ def exclude_char(data):
 
 
 class OldNidParser(NIDParser):
-    front_replace = Quotes.Replace
+    front_replace = Quotes.ReplaceOld
 
     def __init__(self, side=Side.FRONT.value):
         self.format = Format.OLD

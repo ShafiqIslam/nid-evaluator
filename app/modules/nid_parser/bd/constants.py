@@ -1,5 +1,5 @@
 class Quotes:
-    Replace = {
+    ReplaceOld = {
         'Name': 'name',
         'নাম': 'name_bn',
         'স্বামী': 'husband',

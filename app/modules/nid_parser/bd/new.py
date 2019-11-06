@@ -1,3 +1,4 @@
+from app.common.helpers import log
 from app.modules.nid_parser.bd.enums import Side
 from app.modules.nid_parser.nid_parser import NIDParser
 
@@ -8,7 +9,9 @@ class NewNidParser(NIDParser):
         super().__init__(side)
 
     def preprocess(self, data):
-        return data
+        output = data.split("\n\n")
+        log(output)
+        return output
 
     def parse_back_data(self, data):
         pass
