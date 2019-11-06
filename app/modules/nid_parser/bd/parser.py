@@ -38,14 +38,15 @@ class Parser:
 
     def parse(self, filename):
         output = self.parse_image(filename)
-        if self.validOutput(output):
-            return output
-
-        self.format = Format.NEW.value
-        output = self.parse_image(filename, Preprocess.BLUR.value)
-        if self.validOutput(output):
-            return output
-        raise NotClearImage()
+        return output
+        # if self.validOutput(output):
+        #     return output
+        #
+        # self.format = Format.NEW.value
+        # output = self.parse_image(filename, Preprocess.BLUR.value)
+        # if self.validOutput(output):
+        #     return output
+        # raise NotClearImage()
 
     @staticmethod
     def validOutput(output):
