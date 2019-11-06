@@ -10,7 +10,7 @@ from app.modules.ocr import Ocr, Preprocess
 
 
 def exclude(data):
-    result = re.sub(r'[-~—\\|+=\[\]]', '', data.strip())
+    result = re.sub(r'[-~—\\|+=\[\];]', '', data.strip())
     if not result == "" and not result == " ":
         return result
     else:
@@ -42,7 +42,7 @@ class Parser:
             return output
 
         self.format = Format.NEW.value
-        output = self.parse_image(filename, Preprocess.BLUR)
+        output = self.parse_image(filename, Preprocess.BLUR.value)
         if self.validOutput(output):
             return output
         raise NotClearImage()
