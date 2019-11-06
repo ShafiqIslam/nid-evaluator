@@ -10,7 +10,7 @@ from app.modules.ocr import Ocr, Preprocess
 
 
 def exclude(data):
-    result = re.sub(r'[-~—\\|+=\[\];]', '', data.strip())
+    result = re.sub(r'[-~—\\|+=\[\];*]', '', data.strip())
     if not result == "" and not result == " ":
         return result
     else:
