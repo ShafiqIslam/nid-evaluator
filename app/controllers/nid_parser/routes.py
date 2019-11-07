@@ -1,7 +1,7 @@
 import os
 
 from app.common import Request
-from app.common.exceptions import InvalidRequestException
+from app.common.exceptions import InvalidRequestException, JSONException
 from app.modules.nid_parser import BDNIDParser
 from app.validators.schemas.nid_parser.nid_parse_schema import NidParseSchema
 from . import nid_parser

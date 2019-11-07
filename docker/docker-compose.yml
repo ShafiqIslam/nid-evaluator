@@ -14,6 +14,8 @@ services:
       - "5001:5001"
     networks:
       - development_network
+    extra_hosts:
+      - "api.sheba.test:${DOCKER_HOST_ADDR}"
     env_file:
       - ../.env
 networks:

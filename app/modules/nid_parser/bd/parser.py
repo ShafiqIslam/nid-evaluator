@@ -1,12 +1,9 @@
 import importlib
 import re
 
-from app.common.helpers import log
-from app.modules.nid_parser.bd.constants import Quotes
 from app.modules.nid_parser.bd.enums import Format, Side
-from app.modules.nid_parser.exceptions.invalids import NotClearImage
 
-from app.modules.ocr import Ocr, Preprocess
+from app.modules.ocr import Ocr
 
 
 def exclude(data):
