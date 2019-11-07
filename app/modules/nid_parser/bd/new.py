@@ -10,7 +10,6 @@ class NewNidParser(NIDParser):
 
     def preprocess(self, data):
         output = data.split("\n\n")
-        log(output)
         return output
 
     def parse_back_data(self, data):

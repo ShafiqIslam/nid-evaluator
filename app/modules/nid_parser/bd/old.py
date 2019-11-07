@@ -24,15 +24,29 @@ class OldNidParser(NIDParser):
         return processed
 
     def parse_back_data(self, data):
-        pass
+        indexes = Constants.front_data
+        output = getEmptyOutput(indexes)
+        return self.match(data, Constants.matches_back_old, indexes, output, True)
 
-    def parse_front_data(self, data):
+    def parse_front_data(self, data, back=False):
         indexes = Constants.back_data
         output = getEmptyOutput(indexes)
+        return self.match(data, Constants.matches_front_old, indexes, output, back)
+
+    @staticmethod
+    def match(data, regex, indexes, output, back=False):
+        log(data)
+        ex = r':+'
+        if back:
+            ex = r':'
+        i = 0
         for text in data:
-            text = re.sub(r':', '', text).strip()
-            match = hasMatch(re.search(Constants.matches_front_old, text, re.I | re.S | re.U))
+            text = re.sub(ex, '', text).strip()
+            match = hasMatch(re.search(regex, text))
             if match is not None:
                 index, content = match
                 output[indexes[index]] = content
+                if 'permanent_address' == indexes[index]:
+                    output['permanent_address'] = "{} {}".format(output['permanent_address'], data[i + 1])
+            i += 1
         return output
