@@ -1,9 +1,11 @@
 import importlib
 import re
 
+from app.common.helpers import log
 from app.modules.nid_parser.bd.enums import Format, Side
+from app.modules.nid_parser.exceptions.invalids import NotClearImage
 
-from app.modules.ocr import Ocr
+from app.modules.ocr import Ocr, Preprocess
 
 
 def exclude(data):
@@ -35,15 +37,15 @@ class Parser:
 
     def parse(self, filename):
         output = self.parse_image(filename)
-        return output
-        # if self.validOutput(output):
-        #     return output
-        #
-        # self.format = Format.NEW.value
-        # output = self.parse_image(filename, Preprocess.BLUR.value)
-        # if self.validOutput(output):
-        #     return output
-        # raise NotClearImage()
+        if self.validOutput(output):
+            return output
+
+        self.format = Format.NEW.value
+        output = self.parse_image(filename, Preprocess.BLUR.value)
+        if self.validOutput(output):
+            return output
+        log(output)
+        raise NotClearImage()
 
     @staticmethod
     def validOutput(output):
