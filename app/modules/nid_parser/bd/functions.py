@@ -16,3 +16,4 @@ def getEmptyOutput(indexes):
     output = {}
     for item in indexes:
         output[item] = None
+    return output
