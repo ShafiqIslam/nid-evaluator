@@ -42,11 +42,12 @@ class OldNidParser(NIDParser):
         i = 0
         for text in data:
             text = re.sub(ex, '', text).strip()
-            match = hasMatch(re.search(regex, text, re.I))
+            match = hasMatch(re.search(regex, text, re.I | re.U | re.M))
             if match is not None:
                 index, content = match
                 output[indexes[index]] = content
                 if 'permanent_address' == indexes[index]:
                     output['permanent_address'] = "{} {}".format(output['permanent_address'], data[i + 1])
             i += 1
+        log(output)
         return output

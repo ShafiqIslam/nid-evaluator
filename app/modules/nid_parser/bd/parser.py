@@ -49,4 +49,4 @@ class Parser:
 
     @staticmethod
     def validOutput(output):
-        return 'nid_number' in output and 'name' in output
+        return 'nid_no' in output and 'name' in output
