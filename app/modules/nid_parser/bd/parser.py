@@ -43,13 +43,17 @@ class Parser:
 
         self.format = Format.NEW.value
         output_new = self.parse_image(filename)
+        log(output_new)
         if self.validOutput(output_new):
             return output_new
         raise NotClearImage()
 
-    @staticmethod
-    def validOutput(output):
-        return output['nid_no'] is not None and output['name'] is not None
+    def validOutput(self, output):
+        log(self.side)
+        if self.side == Side.FRONT.value:
+            return output['nid_no'] is not None and output['name'] is not None
+
+        return True
 
     @staticmethod
     def mergeOutput(output_old, output_new):
