@@ -7,18 +7,16 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     volumes:
-      - /var/www/html/tesseract-ocr:/usr/src/app
+      - /var/www/sheba_ocr:/usr/src/app
     environment:
-      - VIRTUAL_HOST=nid-validate.sheba.test
-    ports:
-      - "5001:5001"
+      - VIRTUAL_HOST=${OCR_SERVER_URL}
+    expose:
+      - 6791
     networks:
       - development_network
-    extra_hosts:
-      - "api.sheba.test:${DOCKER_HOST_ADDR}"
     env_file:
       - ../.env
 networks:
   development_network:
     external:
-      name: docker-laravel_development_network
+      name: docker_development_network_01
