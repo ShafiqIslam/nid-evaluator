@@ -3,4 +3,4 @@ class Constants:
     matches_back_old = r"Blood Group(.+)|ঠিকানা(.+)|SST(.+)"
     front_data = ['name', 'nid_no', 'mother_name', 'dob', 'father_name', 'bn_name', 'husband', 'nid_no']
     back_data = ['blood_group', 'permanent_address', 'permanent_address']
-    matches_front_new = r"(Name)|NID No(.+)|(মাতা)|Birth(.+)|(পিতা)|(নাম)|(স্বামী)|Nino(.+)"
+    matches_front_new = r"(Name)|NID No(.+)|(মাতা)|Birth(.+)|(পিতা)|(নাম)|(স্বামী)|Nino(.+)?"

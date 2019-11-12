@@ -36,17 +36,21 @@ class Parser:
         return class_(self.side).serialize(data)
 
     def parse(self, filename):
-        output = self.parse_image(filename)
-        if self.validOutput(output):
-            return output
+        output_old = self.parse_image(filename)
+        log(output_old)
+        if self.validOutput(output_old):
+            return output_old
 
         self.format = Format.NEW.value
-        output = self.parse_image(filename, Preprocess.BLUR.value)
-        if self.validOutput(output):
-            return output
-        log(output)
+        output_new = self.parse_image(filename)
+        if self.validOutput(output_new):
+            return output_new
         raise NotClearImage()
 
     @staticmethod
     def validOutput(output):
-        return 'nid_no' in output and 'name' in output
+        return output['nid_no'] is not None and output['name'] is not None
+
+    @staticmethod
+    def mergeOutput(output_old, output_new):
+        return output_old

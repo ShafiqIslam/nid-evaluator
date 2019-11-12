@@ -14,7 +14,15 @@ class NewNidParser(NIDParser):
 
     def preprocess(self, data):
         output = data.split("\n\n")
-        return output
+        final = []
+        for item in output:
+            sp = item.split("\n")
+            final.append(sp[0])
+            log(sp)
+            if len(sp) > 1:
+                final.append(sp[1])
+
+        return final
 
     def parse_back_data(self, data):
         pass
@@ -24,20 +32,27 @@ class NewNidParser(NIDParser):
         output = getEmptyOutput(indexes)
         return self.match(data, Constants.matches_front_new, indexes, output)
 
-    @staticmethod
-    def match(data, regex, indexes, output, back=False):
+    def match(self, data, regex, indexes, output, back=False):
         ex = r':+'
         if back:
             ex = r':'
         i = 0
         for text in data:
             text = re.sub(ex, '', text).strip()
-            match = hasMatch(re.search(regex, text, re.I))
-            log(match)
+            match = hasMatch(re.search(regex, text, re.I | re.M | re.U | re.S))
             if match is not None:
                 index, content = match
                 output[indexes[index]] = content
-                if 'name' == indexes[index]:
-                    output['permanent_address'] = "{} {}".format(output['permanent_address'], data[i + 1])
+                output = self.nextLineParse('name', indexes[index], output, i, data)
+                output = self.nextLineParse('father_name', indexes[index], output, i, data)
+                output = self.nextLineParse('mother_name', indexes[index], output, i, data)
+                output = self.nextLineParse('bn_name', indexes[index], output, i, data)
+                output = self.nextLineParse('husband', indexes[index], output, i, data)
             i += 1
+        return output
+
+    @staticmethod
+    def nextLineParse(query, match, output, data_index, data):
+        if query == match:
+            output[query] = "{}".format(data[data_index + 1])
         return output

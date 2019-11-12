@@ -1,9 +1,10 @@
-import re
+from app.common.helpers import log
 
 
 def hasMatch(match):
     if match:
         groups = match.groups()
+        log(groups)
         index = 0
         for i in groups:
             if i is not None:

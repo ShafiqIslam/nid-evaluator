@@ -1,4 +1,6 @@
 # import the necessary packages
+import re
+
 from PIL import Image
 import pytesseract
 import cv2
@@ -46,8 +48,8 @@ class Ocr:
         if file is not None:
             filename = self.process_image(file)
             output = pytesseract.image_to_string(Image.open(filename), lang=self.lang, output_type=self.output_type)
-            os.remove(filename)
-            log(output)
+            image_file = open("{}/{}".format(self.temp, 'output.log'), 'a')
+            image_file.write("image: {} \n:{}\n".format(filename, re.sub(r"\n\n", '', output)))
         return output
 
     def process_image(self, file):

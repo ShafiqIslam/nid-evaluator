@@ -35,7 +35,6 @@ class OldNidParser(NIDParser):
 
     @staticmethod
     def match(data, regex, indexes, output, back=False):
-        log(data)
         ex = r':+'
         if back:
             ex = r':'
@@ -49,5 +48,4 @@ class OldNidParser(NIDParser):
                 if 'permanent_address' == indexes[index]:
                     output['permanent_address'] = "{} {}".format(output['permanent_address'], data[i + 1])
             i += 1
-        log(output)
         return output
