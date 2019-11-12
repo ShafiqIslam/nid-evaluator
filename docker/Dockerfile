@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt --src=/usr/local/src
 
 EXPOSE ${APP_PORT}
 
-CMD gunicorn -w ${WORKER} -b ${APP_HOST}:${APP_PORT} run:wsgi --reload
+CMD gunicorn -w ${WORKER} -b ${APP_HOST}:${APP_PORT} run:wsgi --reload --timeout=300
