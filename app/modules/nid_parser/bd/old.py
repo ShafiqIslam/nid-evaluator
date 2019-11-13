@@ -45,7 +45,7 @@ class OldNidParser(NIDParser):
             if match is not None:
                 index, content = match
                 output[indexes[index]] = content
-                if 'permanent_address' == indexes[index]:
-                    output['permanent_address'] = "{} {}".format(output['permanent_address'], data[i + 1])
+                if 'address' == indexes[index]:
+                    output['address'] = "{} {}".format(output['address'], data[i + 1])
             i += 1
         return output
