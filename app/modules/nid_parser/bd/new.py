@@ -54,5 +54,6 @@ class NewNidParser(NIDParser):
     @staticmethod
     def nextLineParse(query, match, output, data_index, data):
         if query == match:
-            output[query] = "{}".format(data[data_index + 1])
+            if len(data) > data_index + 1:
+                output[query] = "{}".format(data[data_index + 1])
         return output
