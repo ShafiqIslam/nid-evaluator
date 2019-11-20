@@ -36,13 +36,15 @@ class Parser:
         return class_(self.side).serialize(data)
 
     def parse(self, filename):
-        output_old = self.parse_image(filename)
-        log(output_old)
+        filter_img = None
+        if self.side == Side.BACK.value:
+            filter_img = Preprocess.THRESHOLD.value
+        output_old = self.parse_image(filename, filter_img)
         if self.validOutput(output_old):
             return output_old
 
         self.format = Format.NEW.value
-        output_new = self.parse_image(filename)
+        output_new = self.parse_image(filename, filter_img)
         log(output_new)
         if self.validOutput(output_new):
             return output_new

@@ -12,7 +12,7 @@ from app.config import App
 from app.modules.ocr.enums import Preprocess, Lang
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-DefaultLang = '{}+{}'.format(Lang.ENG.value, Lang.BN.value)
+DefaultLang = '{}+{}'.format(Lang.BN.value, Lang.ENG.value)
 
 
 class Ocr:
@@ -29,13 +29,22 @@ class Ocr:
 
     @staticmethod
     def thresh(image):
-        image = cv2.medianBlur(image, 5)
-        return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-        # return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+        # image = cv2.medianBlur(image, 3)
+        return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU+cv2.THRESH_TOZERO)[1]
+        # return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        #                              cv2.THRESH_BINARY, 199, 5)
 
     @staticmethod
     def blur(image, ksize=3):
         return cv2.GaussianBlur(image, (ksize, ksize), ksize)
+
+    @staticmethod
+    def resize(img, scale_percent):
+        width = int(img.shape[1] * scale_percent / 100)
+        height = int(img.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        # resize image
+        return cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 
     @staticmethod
     def allowed(filename):
@@ -55,7 +64,6 @@ class Ocr:
     def process_image(self, file):
         image = cv2.imread(file)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        gray = self.filter(gray)
         filename = "{}/{}".format(self.temp, get_time_string_file_name("_{}.png".format(os.getpid())))
         cv2.imwrite(filename, gray)
         return filename
