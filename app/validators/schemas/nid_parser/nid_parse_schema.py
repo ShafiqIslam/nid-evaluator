@@ -52,3 +52,8 @@ class NidParseSchema(Schema):
             return data
         except Exception as e:
             raise e
+
+
+class NidParseFromUrlSchema(Schema):
+    front = fields.URL(required=True)
+    back = fields.URL(required=True)

@@ -1,4 +1,5 @@
 import importlib
+import os
 import re
 
 from app.common.helpers import log
@@ -6,6 +7,7 @@ from app.modules.nid_parser.bd.enums import Format, Side
 from app.modules.nid_parser.exceptions.invalids import NotClearImage
 
 from app.modules.ocr import Ocr, Preprocess
+from app.modules.uploader import Uploader
 
 
 def exclude(data):
@@ -45,10 +47,22 @@ class Parser:
 
         self.format = Format.NEW.value
         output_new = self.parse_image(filename, filter_img)
-        log(output_new)
         if self.validOutput(output_new):
             return output_new
         raise NotClearImage()
+
+    def parse_from_url(self, url, name):
+        filename = Uploader.temp_upload_from_url(url, "{}_{}".format(self.side, name))
+        filter_img = None
+        if self.side == Side.BACK.value:
+            filter_img = Preprocess.THRESHOLD.value
+        output_old = self.parse_image(filename, filter_img)
+
+        self.format = Format.NEW.value
+        output_new = self.parse_image(filename, filter_img)
+        os.remove(filename)
+        log(output_new, output_old)
+        return self.mergeOutput(output_new, output_old)
 
     def validOutput(self, output):
         log(self.side)
@@ -58,5 +72,11 @@ class Parser:
         return True
 
     @staticmethod
-    def mergeOutput(output_old, output_new):
-        return output_old
+    def mergeOutput(dic1, dic2):
+        dict3 = {**dic1, **dic2}
+        for key, value in dict3.items():
+            if key in dic1 and key in dic1:
+                if not value:
+                    dict3[key] = dic1[key]
+
+        return dict3

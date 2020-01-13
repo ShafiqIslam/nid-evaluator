@@ -1,6 +1,7 @@
 import re
 
 from app.common.helpers import log
+from app.modules.nid_parser.bd import OldNidParser
 from app.modules.nid_parser.bd.constants import Constants
 from app.modules.nid_parser.bd.enums import Side
 from app.modules.nid_parser.bd.functions import getEmptyOutput, hasMatch
@@ -25,7 +26,9 @@ class NewNidParser(NIDParser):
         return final
 
     def parse_back_data(self, data):
-        pass
+        indexes = Constants.back_data
+        output = getEmptyOutput(indexes)
+        return OldNidParser.match(data, Constants.matches_back_old, indexes, output, True)
 
     def parse_front_data(self, data):
         indexes = Constants.front_data

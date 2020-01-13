@@ -1,5 +1,5 @@
 from flask import current_app
-from typing import List, Tuple
+from typing import List
 import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -156,3 +156,10 @@ def get_time_string_file_name(filename):
 
 
 ordinal = lambda n: "%d%s" % (n, "tsnrhtdd"[(n / 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
+
+
+def get_filename_from_url(url):
+    from urllib.parse import urlparse
+    import os
+    file_path_result = urlparse(url)
+    return os.path.basename(file_path_result.path)
