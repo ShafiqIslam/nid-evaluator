@@ -1,17 +1,19 @@
 version: "3.7"
 services:
-  tesseract-server:
-    container_name: tesseract-server
+  nid-evaluator:
+    container_name: nid-evaluator
     restart: always
     build:
       context: ../
       dockerfile: docker/Dockerfile
     volumes:
-      - /var/www/sheba_ocr:/usr/src/app
+      - ../:/usr/src/app
     environment:
-      - VIRTUAL_HOST=${OCR_SERVER_URL}
+      - VIRTUAL_HOST=${APP_URL}
     expose:
       - 6791
+    ports:
+      - 6791:6791
     networks:
       - development_network
     env_file:

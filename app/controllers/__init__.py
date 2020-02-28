@@ -1,8 +1,8 @@
 from flask import Flask
 
-from app.controllers.nid_parser import nid_parser
+from app.controllers.evaluator import evaluator
 
 
 def register_modules(application: Flask):
-    application.register_blueprint(nid_parser)
+    application.register_blueprint(evaluator)
     return application

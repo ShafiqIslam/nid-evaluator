@@ -4,9 +4,9 @@ from marshmallow import Schema, fields, pre_load, EXCLUDE
 
 from app.common import Request
 from app.common.exceptions import InvalidRequestException
-from app.modules.nid_parser import BDNIDParser
-from app.modules.nid_parser.bd.enums import Side
-from app.modules.nid_parser.exceptions.invalids import FormatNotExcepted
+from app.modules.evaluator import BDNIDParser
+from app.modules.evaluator.bd.enums import Side
+from app.modules.evaluator.exceptions.invalids import FormatNotExcepted
 from app.modules.ocr.exceptions import FileNotSelectedException
 
 
