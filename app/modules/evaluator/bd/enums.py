@@ -1,11 +1,11 @@
-from app.common.global_enum import GlobalEnum
+from app.common.enum import Enum
 
 
-class Format(GlobalEnum):
+class Format(Enum):
     OLD = 'old'
     NEW = 'new'
 
 
-class Side(GlobalEnum):
+class Side(Enum):
     FRONT = 'front'
     BACK = 'back'

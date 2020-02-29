@@ -1,12 +1,12 @@
 import typing
 
 from marshmallow import Schema, fields, pre_load, EXCLUDE
-
 from app.common import Request
 from app.common.exceptions import InvalidRequestException
-from app.modules.evaluator import BDNIDParser
+from app.modules.evaluator import BDNIDEvaluator
 from app.modules.evaluator.bd.enums import Side
 from app.modules.evaluator.exceptions.invalids import FormatNotExcepted
+from app.modules.ocr import Ocr
 from app.modules.ocr.exceptions import FileNotSelectedException
 
 
@@ -46,7 +46,7 @@ class NidParseSchema(Schema):
             nid_image = Request.files['nid_image']
             if nid_image.filename == '':
                 raise FileNotSelectedException()
-            if nid_image and not BDNIDParser.allowed(nid_image.filename):
+            if nid_image and not Ocr.allowed(nid_image.filename):
                 raise FormatNotExcepted()
             data.nid_image = nid_image
             return data
