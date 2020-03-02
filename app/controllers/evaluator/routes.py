@@ -4,7 +4,6 @@ from app.common.exceptions import InvalidRequestException
 from app.modules.evaluator import BDEvaluator
 from app.validators.schemas.nid_parser.nid_parse_schema import NidParseSchema
 from . import evaluator
-from app.modules.ocr.exceptions import InvalidFileException
 from app.modules.uploader import Uploader
 
 nid_parse_schema = NidParseSchema()
@@ -33,9 +32,4 @@ def process_request():
     if errors:
         raise InvalidRequestException()
     nid_image = Request.files['nid_image']
-    file_name = Uploader.temp_upload(nid_image)
-
-    if file_name is None:
-        raise InvalidFileException()
-
-    return file_name
+    return Uploader.temp_upload(nid_image)

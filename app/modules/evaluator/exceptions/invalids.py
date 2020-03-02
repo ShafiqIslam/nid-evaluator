@@ -6,11 +6,6 @@ class InvalidFormatException(JSONException):
     message = "Invalid format given please chose between 'old' or 'new'"
 
 
-class FormatNotExcepted(JSONException):
-    status_code = 500
-    message = "Invalid format given for image"
-
-
 class InvalidSideException(JSONException):
     status_code = 500
     message = "Side name is invalid please use front or back"

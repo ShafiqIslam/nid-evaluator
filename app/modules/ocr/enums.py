@@ -6,6 +6,6 @@ class Preprocess(Enum):
     BLUR = 'blur'
 
 
-class Lang(Enum):
+class Language(Enum):
     ENG = 'eng'
     BN = 'ben'

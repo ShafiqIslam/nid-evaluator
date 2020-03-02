@@ -1,5 +1,5 @@
 from app.modules.evaluator.bd.nid_format import NIDFormat
-from app.modules.evaluator.bd.parser.unable_to_classify_as_nid import UnableToClassifyAsNID
+from app.modules.evaluator.bd.image_classifier.unable_to_classify_as_nid import UnableToClassifyAsNID
 
 
 class Classifier:
@@ -10,7 +10,6 @@ class Classifier:
         self.filename = filename
 
     def classify(self) -> NIDFormat:
-
         if self.format is None:
             raise UnableToClassifyAsNID()
 

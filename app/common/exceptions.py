@@ -27,6 +27,11 @@ class JSONException(Exception):
         }
 
 
+class ValidationFailed(JSONException):
+    status_code = 400
+    message = "Request validation failed"
+
+
 class InvalidContentType(JSONException):
     """
     Raised when an invalid Content-Type is provided.
@@ -73,3 +78,8 @@ class RecordAlreadyExists(DatabaseError):
     Raised in the case of violation of a unique constraint.
     """
     status_code = Conflict.code
+
+
+class NotAValidFileName(JSONException):
+    status_code = 500
+    message = "Invalid file name"

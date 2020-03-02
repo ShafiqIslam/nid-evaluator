@@ -1,10 +1,9 @@
 import re
 
-from app.common.helpers import log
 from app.modules.evaluator.bd.constants import Constants
 from app.modules.evaluator.bd.enums import Side, Format
 from app.modules.evaluator.bd.functions import hasMatch, getEmptyOutput
-from app.modules.evaluator.functions import exclude_special_char
+from app.modules.evaluator.bd.parser.functions import exclude_special_char
 from app.modules.evaluator.nid_parser import NIDParser
 
 

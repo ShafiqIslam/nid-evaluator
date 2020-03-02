@@ -3,6 +3,8 @@ from typing import List
 import datetime
 from dateutil.relativedelta import relativedelta
 
+from app.common.exceptions import NotAValidFileName
+
 
 class DateRange:
     start: datetime.datetime
@@ -163,3 +165,9 @@ def get_filename_from_url(url):
     import os
     file_path_result = urlparse(url)
     return os.path.basename(file_path_result.path)
+
+
+def get_extension_from_filename(filename):
+    if '.' not in filename:
+        raise NotAValidFileName()
+    return filename.rsplit('.', 1)[1].lower()

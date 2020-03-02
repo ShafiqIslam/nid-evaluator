@@ -1,38 +1,38 @@
-# import the necessary packages
 import re
-
+from typing import List
 from PIL import Image
 import pytesseract
 import cv2
 import os
 from pytesseract import Output
-
-from app.common.helpers import get_time_string_file_name, log
+from app.common.helpers import get_time_string_file_name, log, get_extension_from_filename
 from app.config import App
 from app.modules.ocr.enums import Preprocess, Lang
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-DefaultLang = '{}+{}'.format(Lang.BN.value, Lang.ENG.value)
 
 
 class Ocr:
-    lang = DefaultLang
-    output_type = Output.STRING
-    temp = App.temp_image_folder
+    languages = Lang.ENG.value
     preprocess = None
 
-    def __init__(self, lang=DefaultLang, pre_process=None, output_type=Output.STRING):
-        self.lang = lang
-        self.output_type = output_type
+    def __init__(self, pre_process=None):
         self.preprocess = pre_process
         pass
 
+    def set_languages(self, languages: List[Lang]):
+        if not isinstance(languages, List):
+            languages = [languages]
+
+        self.languages = ""
+        for language in languages:
+            self.languages += language.value + "+"
+
+        self.languages = self.languages[:-1]
+
     @staticmethod
     def thresh(image):
-        # image = cv2.medianBlur(image, 3)
         return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU+cv2.THRESH_TOZERO)[1]
-        # return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        #                              cv2.THRESH_BINARY, 199, 5)
 
     @staticmethod
     def blur(image, ksize=3):
@@ -43,28 +43,24 @@ class Ocr:
         width = int(img.shape[1] * scale_percent / 100)
         height = int(img.shape[0] * scale_percent / 100)
         dim = (width, height)
-        # resize image
         return cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 
     @staticmethod
-    def allowed(filename):
-        return '.' in filename and \
-               filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    def is_allowed(filename):
+        return get_extension_from_filename(filename) in ALLOWED_EXTENSIONS
 
     def parse_image(self, file, preprocess=None):
-        output = None
         self.preprocess = preprocess
-        if file is not None:
-            filename = self.process_image(file)
-            output = pytesseract.image_to_string(Image.open(filename), lang=self.lang, output_type=self.output_type)
-            image_file = open("{}/{}".format(self.temp, 'output.log'), 'a')
-            image_file.write("image: {} \n:{}\n".format(filename, re.sub(r"\n\n", '', output)))
+        filename = self.process_image(file)
+        output = pytesseract.image_to_string(Image.open(filename), lang=self.languages, output_type=Output.STRING)
+        self.log_output(filename, output)
         return output
 
-    def process_image(self, file):
+    @staticmethod
+    def process_image(file):
         image = cv2.imread(file)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        filename = "{}/{}".format(self.temp, get_time_string_file_name("_{}.png".format(os.getpid())))
+        filename = "{}/{}".format(App.temp_image_folder, get_time_string_file_name("_{}.png".format(os.getpid())))
         cv2.imwrite(filename, gray)
         return filename
 
@@ -73,3 +69,8 @@ class Ocr:
             return image
         method = getattr(self, "{}".format(self.preprocess))
         return method(image)
+
+    @staticmethod
+    def log_output(filename: str, output: str):
+        log_file = open("{}/{}".format(App.temp_image_folder, 'output.log'), 'a')
+        log_file.write("image: {} \n:{}\n".format(filename, re.sub(r"\n\n", '', output)))
