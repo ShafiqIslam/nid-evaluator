@@ -1,6 +1,5 @@
 from datetime import date
 from app.modules.evaluator.bd.parser import Parser
-from app.modules.evaluator.bd.parser.functions import has_match, get_empty_output
 import re
 from typing import Final
 
@@ -16,10 +15,10 @@ class OldNIDParser(Parser):
         self.nid.date_of_birth = date.today()  # output['dob']
 
     def serialize(self):
-        output = get_empty_output(self.keys)
+        output = self.get_empty_output(self.keys)
         for line in self.image_data_lines:
             text = re.sub(r':+', '', line).strip()
-            match = has_match(re.search(self.regex, text, re.IGNORECASE | re.UNICODE | re.MULTILINE))
+            match = self.has_match(re.search(self.regex, text, re.IGNORECASE | re.UNICODE | re.MULTILINE))
             if match is not None:
                 index, content = match
                 output[self.keys[index]] = content

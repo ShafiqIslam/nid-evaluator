@@ -31,3 +31,8 @@ class DB:
     def to_string():
         return DB.driver + '://' + DB.username + ':' + DB.password + '@' + \
                DB.hostname + ':' + str(DB.port) + '/' + DB.database
+
+
+class Porichoy:
+    url: str = os.getenv('PORICHOY_URL')
+    api_key: str = os.getenv('PORICHOY_API_KEY')

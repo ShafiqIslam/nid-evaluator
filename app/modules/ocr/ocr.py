@@ -5,22 +5,22 @@ import pytesseract
 import cv2
 import os
 from pytesseract import Output
-from app.common.helpers import get_time_string_file_name, log, get_extension_from_filename
+from app.common.helpers import get_time_string_file_name, get_extension_from_filename
 from app.config import App
-from app.modules.ocr.enums import Preprocess, Lang
+from app.modules.ocr.enums import Language
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 class Ocr:
-    languages = Lang.ENG.value
+    languages = Language.ENG.value
     preprocess = None
 
     def __init__(self, pre_process=None):
         self.preprocess = pre_process
         pass
 
-    def set_languages(self, languages: List[Lang]):
+    def set_languages(self, languages: List[Language]):
         if not isinstance(languages, List):
             languages = [languages]
 

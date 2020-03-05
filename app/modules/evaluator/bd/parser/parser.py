@@ -33,6 +33,23 @@ class Parser(ABC):
             if e is not False:
                 self.image_data_lines.append(e)
 
+    @staticmethod
+    def has_match(match):
+        groups = match.groups()
+        index = 0
+        for group in groups:
+            if group is not None:
+                return index, group.strip()
+            index += 1
+        return None
+
+    @staticmethod
+    def get_empty_output(indexes):
+        output = {}
+        for item in indexes:
+            output[item] = None
+        return output
+
     @abstractmethod
     def construct_nid(self):
         pass

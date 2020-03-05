@@ -1,5 +1,5 @@
-from app.modules.evaluator.bd.nid import NID
-from app.modules.evaluator.bd.nid_format import NIDFormat
+from .nid import NID
+from .nid_format import NIDFormat
 from .parser import Parser
 from .data_validator import DataValidator
 from .image_classifier import ImageClassifier
