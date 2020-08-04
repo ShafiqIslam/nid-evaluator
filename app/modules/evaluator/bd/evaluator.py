@@ -1,28 +1,18 @@
+from app.modules.evaluator.bd.image_classifier.available_classifier import AvailableClassifier
+from app.modules.evaluator.bd.image_classifier.classifier_factory import ClassifierFactory
+from app.modules.evaluator.bd.parser.parser_factory import ParserFactory
 from .nid import NID
 from .nid_format import NIDFormat
-from .parser import Parser
 from .data_validator import DataValidator
-from .image_classifier import ImageClassifier
 
 
 def classify_image(filename: str) -> NIDFormat:
-    classifier = ImageClassifier()
-    classifier.set_image(filename)
+    classifier = ClassifierFactory.get(filename, AvailableClassifier.RESNET50)
     return classifier.classify()
 
 
-def get_parser(nid_format: NIDFormat, filename: str) -> Parser:
-    if nid_format is NIDFormat.NEW:
-        parser = Parser()
-    else:
-        parser = Parser()
-
-    parser.set_image(filename)
-    return parser
-
-
 def parse_image(nid_format: NIDFormat, filename: str) -> NID:
-    parser = get_parser(nid_format, filename)
+    parser = ParserFactory.get(nid_format, filename)
     return parser.parse()
 
 

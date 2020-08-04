@@ -4,7 +4,7 @@ from typing import Final
 import re
 
 
-class NewNIDParser(Parser):
+class SmartNIDParser(Parser):
     regex: Final = r"(Name)|NID No(.+)|Birth(.+)|Nino(.+)?|nono([\w ]+)"
     keys: Final = ['name', 'nid_no', 'dob', 'nid_no', 'nid_no']
 

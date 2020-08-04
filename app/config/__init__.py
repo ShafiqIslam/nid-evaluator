@@ -17,6 +17,7 @@ class App:
     root = os.path.dirname(os.path.abspath(__file__)).replace('config', '')
     temp_image_folder = os.path.join("{}{}{}".format('.', os.sep, "images/temp"))
     temp_folder = os.path.join(root, "{}{}".format(os.sep, os.getenv('TEMP_FOLDER')))
+    models_folder = os.path.join(root, "{}{}".format(os.sep, "trained_models"))
 
 
 class DB:

@@ -1,16 +1,18 @@
+from app.modules.evaluator.bd.image_classifier.classifier_strategy import ClassifierStrategy
 from app.modules.evaluator.bd.nid_format import NIDFormat
 from app.modules.evaluator.bd.image_classifier.unable_to_classify_as_nid import UnableToClassifyAsNID
 
 
 class Classifier:
-    filename: str = None
-    format: NIDFormat = NIDFormat.NEW
+    strategy: ClassifierStrategy
 
-    def set_image(self, filename):
-        self.filename = filename
+    def set_strategy(self, strategy: ClassifierStrategy):
+        self.strategy = strategy
 
     def classify(self) -> NIDFormat:
-        if self.format is None:
+        nid_format = self.strategy.classify()
+
+        if nid_format is None:
             raise UnableToClassifyAsNID()
 
-        return self.format
+        return nid_format

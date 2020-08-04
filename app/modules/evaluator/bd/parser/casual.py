@@ -4,7 +4,7 @@ import re
 from typing import Final
 
 
-class OldNIDParser(Parser):
+class CasualNIDParser(Parser):
     regex: Final = r"Name([\w ]+)|ID NO([\w ]+).|Date of Birth(.+)|IDNO([\w ]+)."
     keys: Final = ['name', 'nid_no', 'dob', 'nid_no']
 
